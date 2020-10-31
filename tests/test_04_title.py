@@ -161,7 +161,7 @@ class Test04TitleAPI:
         client_user = auth_client(user)
         data = {'name': 'Чудо юдо', 'year': 1999, 'genre': [genres[2]['slug'], genres[1]['slug']],
                 'category': categories[0]['slug'], 'description': 'Бум'}
-        response = client_user.post('/api/v1/titles/', data=data)
+        response = post('/api/v1/titles/', data=data)
         assert response.status_code == 403, \
             f'Проверьте, что при POST запросе `/api/v1/titles/` ' \
             f'с токеном авторизации {user_name} возвращается статус 403'
