@@ -6,9 +6,20 @@ from .models import Review, Comments
 class ReviewSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(slug_field='username', read_only=True)
 
+    def validate(self, data):
+        title = self.context.get('title')
+        request = self.context.get('request')
+        if (
+            request.method != 'PATCH' and
+            Review.objects.filter(title=title, author=request.user).exists()
+        ):
+            raise serializers.ValidationError('Score already exists')
+        return data
+
     class Meta:
         exclude = ['title']
         model = Review
+        extra_kwargs = {'title': {'required': False}}
 
 
 class CommentSerializer(serializers.ModelSerializer):
