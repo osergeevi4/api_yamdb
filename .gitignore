@@ -16,6 +16,6 @@ __pycache__/
 
 media/
 
-api/migrations/
+migrations/
 
 db.sqlite3
