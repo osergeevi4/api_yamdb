@@ -96,7 +96,7 @@ class Test02CategoryAPI:
             'name': 'Музыка',
             'slug': 'music'
         }
-        response = client_user.post('/api/v1/categories/', data=data)
+        response = post('/api/v1/categories/', data=data)
         assert response.status_code == 403, \
             f'Проверьте, что при POST запросе `/api/v1/categories/` ' \
             f'с токеном авторизации {user_name} возвращается статус 403'

@@ -1,8 +1,6 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.core.validators import MaxValueValidator
-
-User = get_user_model()
 
 
 class Review(models.Model):
@@ -18,3 +16,23 @@ class Comments(models.Model):
     text = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
     pub_date = models.DateTimeField("Дата добавления комментария", auto_now_add=True, db_index=True)
+    
+# Олех
+class User(AbstractUser):
+    USER = 'user'
+    MODERATOR = 'moderator'
+    ADMIN = 'admin'
+    ROLE_CHOISES = (
+        (USER, 'user'),
+        (MODERATOR, 'moderator'),
+        (ADMIN, 'admin')
+    )
+    bio = models.CharField(max_length=50, blank=True)
+    role = models.CharField(
+        max_length=10,
+        choices=ROLE_CHOISES,
+        default=USER,
+    )
+    email = models.EmailField(unique=True)
+    REQUIRED_FIELDS = ['email']
+    

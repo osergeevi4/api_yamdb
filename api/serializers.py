@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+from .models import User
 from .models import Review, Comments
 
 
@@ -28,3 +28,24 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         exclude = ['review']
         model = Comments
+
+# Олег
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'username',
+            'role',
+            'email',
+            'first_name',
+            'last_name',
+            'bio',
+        )
+
+
+class EmailSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    confirmation_code = serializers.CharField(max_length=30)
+
