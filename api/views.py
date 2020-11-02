@@ -11,7 +11,7 @@ from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from api_yamdb import settings
 from .models import User
 from .serializers import EmailSerializer, UserSerializer
-from .permissions import IsAdmin
+from .permissions import IsAdmin, IsAdminOrReadOnly, IsAdminOrModer
 
 
 @api_view(['POST'])
