@@ -1,18 +1,21 @@
+from django.shortcuts import render
+
 from api_yamdb import settings
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, mixins
 from rest_framework.decorators import api_view, action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
+from rest_framework.viewsets import GenericViewSet
 
 
-from .models import Review, User
-from .serializers import ReviewSerializer, CommentSerializer, EmailSerializer, UserSerializer
+from .models import Review, User, Title, Category, Genre
+from .serializers import ReviewSerializer, CommentSerializer, EmailSerializer, UserSerializer, TitleSerializer, CategorySerializer, GenreSerializer
 from .permissions import IsAuthorOrReadOnly, IsAdmin, IsAdminOrReadOnly, IsAdminOrModer
 
 
@@ -103,4 +106,26 @@ class UserViewSet(viewsets.ModelViewSet):
         if serializer.is_valid():
             serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
+      
+#Дима
+class TitleViewSet(viewsets.ModelViewSet):
 
+    serializer_class = TitleSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        return Title.objects.all()
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    serializer_class = CategorySerializer
+
+    def get_queryset(self):
+        return Category.objects.all()
+
+
+class GenreViewSet(viewsets.ModelViewSet):
+    serializer_class = GenreSerializer
+
+    def get_queryset(self):
+        return Genre.objects.all()
