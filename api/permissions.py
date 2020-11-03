@@ -4,7 +4,7 @@ from rest_framework.permissions import BasePermission, SAFE_METHODS
 class IsAuthorOrReadOnly(BasePermission):
 
     def has_object_permission(self, request, view, obj):
-        if request.method in permissions.SAFE_METHODS:
+        if request.method in SAFE_METHODS:
             return True
         return obj.author == request.user
 
@@ -23,7 +23,8 @@ class IsAdminOrReadOnly(BasePermission):
             return True
         if request.user.is_anonymous:
             return False
-        return request.user.ADMIN
+        return (request.user.role == 'admin' or
+                    request.user.is_superuser)
 
 
 class IsAdminOrModer(BasePermission):
@@ -34,7 +35,7 @@ class IsAdminOrModer(BasePermission):
             return False
         return (
             obj.author == request.user or
-            request.user.ADMIN or
-            request.user.MODERATOR
+            request.user.role == 'admin' or
+            request.user.role == 'moderator'
         )
 

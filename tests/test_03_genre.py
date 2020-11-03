@@ -87,7 +87,7 @@ class Test03GenreAPI:
             'name': 'Боевик',
             'slug': 'action'
         }
-        response = post('/api/v1/genres/', data=data)
+        response = client_user.post('/api/v1/genres/', data=data)
         assert response.status_code == 403, \
             f'Проверьте, что при POST запросе `/api/v1/genres/` ' \
             f'с токеном авторизации {user_name} возвращается статус 403'
