@@ -1,3 +1,4 @@
+
 .git/*
 env/
 venv/
@@ -16,10 +17,7 @@ __pycache__/
 
 media/
 
-
-migrations/
-
-
+db.sqlite3
 
 
 
