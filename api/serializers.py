@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Review, Comments, Title, Category, Genre
+from .models import Category, Comments, Genre, Review, Title
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -9,7 +9,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     title = serializers.SlugRelatedField(slug_field='pk', read_only=True)
 
     class Meta:
-        fields = ('id', 'text', 'author', 'score', 'pub_date', 'title')
+        fields = '__all__'
         model = Review
 
     def validate(self, data):

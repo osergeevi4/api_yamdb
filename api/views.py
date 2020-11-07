@@ -1,16 +1,16 @@
 from django.db.models import Avg
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets, filters, mixins
+from rest_framework import filters, mixins, viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.viewsets import GenericViewSet
+from users.permissions import IsAdminOrModer, IsAdminOrReadOnly
 
 from .filters import TitleFilter
-from .models import Review, Title, Category, Genre
-from users.permissions import IsAdminOrReadOnly, IsAdminOrModer
-from .serializers import (ReviewSerializer, CommentSerializer, CategorySerializer,
-                          GenreSerializer, TitleSerializer)
+from .models import Category, Genre, Review, Title
+from .serializers import (CategorySerializer, CommentSerializer,
+                          GenreSerializer, ReviewSerializer, TitleSerializer)
 
 
 class CreateListDestroyMixin(mixins.CreateModelMixin,

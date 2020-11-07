@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Title, Category, Review, Comments
 from users.models import User
+
+from .models import Category, Comments, Review, Title
 
 admin.site.register(User)
 admin.site.register(Title)
