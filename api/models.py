@@ -6,7 +6,11 @@ from users.models import User
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=50, blank=False, unique=True)
+    name = models.CharField(max_length=50,
+                            blank=False,
+                            unique=True,
+                            verbose_name='Категория'
+                            )
     slug = models.SlugField(max_length=50, blank=False,
                             null=True, unique=True
                             )
@@ -16,7 +20,11 @@ class Category(models.Model):
 
 
 class Genre(models.Model):
-    name = models.CharField(max_length=50, blank=False, unique=True)
+    name = models.CharField(max_length=50,
+                            blank=False,
+                            unique=True,
+                            verbose_name='Жанр'
+                            )
     slug = models.SlugField(max_length=50, blank=False,
                             null=True, unique=True
                             )

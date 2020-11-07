@@ -9,11 +9,15 @@ class User(AbstractUser):
         MODERATOR = 'moderator'
         ADMIN = 'admin'
 
-    bio = models.CharField(max_length=50, blank=True)
+    bio = models.CharField(max_length=50,
+                           blank=True,
+                           verbose_name='Об авторе'
+                           )
     role = models.CharField(
         max_length=10,
         choices=UserRole,
         default=UserRole.USER,
+        verbose_name='Роль'
     )
     email = models.EmailField(unique=True)
     USERNAME_FIELD = 'username'
