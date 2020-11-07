@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'api',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -135,7 +136,7 @@ SIMPLE_JWT = {
     }
 
 
-AUTH_USER_MODEL = 'api.User'
+AUTH_USER_MODEL = 'users.User'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.ru'

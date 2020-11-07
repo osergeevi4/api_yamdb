@@ -1,30 +1,16 @@
-from django.contrib.auth.models import AbstractUser
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator
 from django.db import models
 from django.db.models.functions import datetime
 
-
-class User(AbstractUser):
-    USER = 'user'
-    MODERATOR = 'moderator'
-    ADMIN = 'admin'
-    ROLE_CHOISES = (
-        (USER, 'user'),
-        (MODERATOR, 'moderator'),
-        (ADMIN, 'admin')
-    )
-    bio = models.CharField(max_length=50, blank=True)
-    role = models.CharField(
-        max_length=10,
-        choices=ROLE_CHOISES,
-        default=USER,
-    )
-    email = models.EmailField(unique=True)
-    REQUIRED_FIELDS = ['email']
+from users.models import User
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=50, blank=False, unique=True)
+    name = models.CharField(max_length=50,
+                            blank=False,
+                            unique=True,
+                            verbose_name='Категория'
+                            )
     slug = models.SlugField(max_length=50, blank=False,
                             null=True, unique=True
                             )
@@ -34,7 +20,11 @@ class Category(models.Model):
 
 
 class Genre(models.Model):
-    name = models.CharField(max_length=50, blank=False, unique=True)
+    name = models.CharField(max_length=50,
+                            blank=False,
+                            unique=True,
+                            verbose_name='Жанр'
+                            )
     slug = models.SlugField(max_length=50, blank=False,
                             null=True, unique=True
                             )
@@ -50,11 +40,13 @@ class Title(models.Model):
     )
     year = models.PositiveIntegerField(
         default=datetime.datetime.now().year,
+        validators=[
+            MaxValueValidator(datetime.datetime.today().year)
+        ]
     )
     rating = models.PositiveSmallIntegerField(
         validators=[
             MaxValueValidator(10, 'Рейтинг не может быть выше 10'),
-            MinValueValidator(1),
         ],
         null=True,
         verbose_name="Рейтинг",
@@ -63,7 +55,7 @@ class Title(models.Model):
         max_length=1000,
         verbose_name='Краткое описание',
     )
-    genre = models.ManyToManyField(Genre)
+    genre = models.ManyToManyField(Genre, related_name='title')
     category = models.ForeignKey(
         Category,
         null=True,
@@ -97,10 +89,14 @@ class Review(models.Model):
     score = models.PositiveSmallIntegerField(
         validators=[
             MaxValueValidator(10, 'Оценка не может превышать 10'),
-            MinValueValidator(1),
         ],
         verbose_name='Оценка',
     )
+
+    class Meta:
+        ordering = (
+            '-pub_date',
+        )
 
 
 class Comments(models.Model):
@@ -119,3 +115,9 @@ class Comments(models.Model):
         verbose_name="Дата добавления комментария",
         auto_now_add=True, db_index=True
     )
+
+    class Meta:
+        ordering = (
+            '-pub_date',
+        )
+
